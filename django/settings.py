@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    '___APP_NAME___',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +77,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'master',
+        'NAME': 'data',
         'USER': 'user',
         'PASSWORD': '___MYSQL_USER_PASSWORD___',
         'HOST': '___MYSQL_MASTER_HOST___',
@@ -87,7 +88,7 @@ DATABASES = {
     },
     'slave': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'slave',
+        'NAME': 'data',
         'USER': 'user',
         'PASSWORD': '___MYSQL_USER_PASSWORD___',
         'HOST': '___MYSQL_SLAVE_HOST___',
@@ -149,5 +150,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"

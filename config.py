@@ -29,25 +29,56 @@ def main(_args):
 
     params = fn.getenv(env_file)
 
-    req_keys = [
+    fn.setparams(params, [
         'TZ',
         'APP_NAME',
         'APP_DOMAIN',
         'APP_PORT',
-    ]
+    ])
 
-    _input = input("get app source from git. ok? (y/*) :").lower()
-    if _input in ["y", "yes"]:
-        req_keys.append('GIT_USER')
-        req_keys.append('GIT_TOKEN')
-        req_keys.append('GIT_REPO')
-        req_keys.append('GIT_BRANCH')
-    fn.setparams(params, req_keys)
+    if fn.input_yn("get app source from git? (y/*) :"):
+        fn.setparams(params, [
+            'GIT_USER',
+            'GIT_TOKEN',
+            'GIT_REPO',
+            'GIT_BRANCH',
+        ])
+    if fn.input_yn("use mysql databases? (y/*) :"):
+        fn.setparams(params, [
+            'MYSQL_MASTER_HOST',
+            'MYSQL_MASTER_PORT',
+            'MYSQL_SLAVE_HOST',
+            'MYSQL_SLAVE_PORT',
+            'MYSQL_USER_PASSWORD',
+        ])
+
+    if fn.input_yn("use redis caches? (y/*) :"):
+        fn.setparams(params, [
+            'REDIS_MASTER_HOST',
+            'REDIS_MASTER_PORT',
+            'REDIS_MASTER_PASSWORD',
+        ])
 
     fn.setenv(params, env_file)
     fn.update_file(params, nconf_org, "___", nconf_dst)
 
-    if params['GIT_REPO'] != "":
+    # netrcファイル作成
+    if params['GIT_REPO'] == "":
+        dir_app = join(dir_scr, "src", "app")
+        if not isdir(dir_app):
+            fn.mkdir(dir_app, True)
+            shutil.copytree(
+                join(dir_scr, "django", "template"),
+                join(dir_scr, "src"))
+            # fn.update_file(params,
+            #         join(dir_scr, "django", "settings.py"),
+            #         "___",
+            #         join(dir_scr, "src", "app", "settings.py"))
+            # fn.update_file(params,
+            #         join(dir_scr, "django", "db_router.py"),
+            #         "___",
+            #         join(dir_scr, "src", "app", "db_router.py"))
+    else:
         # URLをパースする
         params['GIT_DOMAIN'] = urlparse(params['GIT_REPO']).netloc.replace("www.", "")
         fn.update_file(params, netrc_org, "___", netrc_dst)
