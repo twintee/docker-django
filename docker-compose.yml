@@ -1,0 +1,51 @@
+version: '2'
+services:
+
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '8000:80'
+      - '443:443'
+    # volumes:
+    #   - /path/to/certs/:/var/lib/https-portal/
+    links:
+      - web
+    restart: always
+    environment:
+      DOMAINS:
+        'localhost -> http://web:${APP_PORT}'
+        # '${APP_DOMAIN} -> http://web:${APP_PORT}'
+      STAGE: 'local'
+      # STAGE: 'production'
+
+  web:
+    image: nginx:stable-alpine
+    container_name: node-app-nginx
+    environment:
+      TZ: ${TZ}
+    ports:
+      - "${APP_PORT}:8000"
+    volumes:
+      - ./log/nginx:/var/log/nginx
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./static:/static
+    restart: always
+    depends_on:
+      - django
+
+  django:
+    build:
+      context: ./django
+    image: app-django
+    container_name: node-app-django
+    environment:
+      TZ: ${TZ}
+    ports:
+      - 8001
+    command: uwsgi --socket :8001 --module ${APP_NAME}.wsgi --py-autoreload 1 --logto /var/log/django.log
+    volumes:
+      - ./src:/var/www/html:rw
+      - ./log/django:/var/log/:rw
+      - ./static:/static
+    restart: always
