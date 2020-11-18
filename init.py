@@ -46,20 +46,22 @@ def main():
         else:
             # gitからリポジトリクローン
             gituser = params['GIT_USER']
+            if "gitlab" in params['GIT_REPO']:
+                print("[info] clone from gitlab.")
+                gituser = "oauth2"
+            clone_url = params['GIT_REPO'].replace("://", f"://{gituser}:{params['GIT_TOKEN']}@")
+            cmd = f"git clone"
+            if params['GIT_BRANCH'] != "":
+                cmd += f" -b {params['GIT_BRANCH']}"
+            cmd += f" {clone_url} {dir_app}"
+            for line in fn.cmdlines(_cmd=cmd):
+                sys.stdout.write(line)
+            # 内部でgitの更新できるようnetrc作成
             netrc_path = join(dir_scr, "django", ".netrc")
             if isfile(netrc_path):
                 cmd = f"docker cp {netrc_path} node-app-django:/root"
                 for line in fn.cmdlines(_cmd=cmd):
                     sys.stdout.write(line)
-            if "gitlab" in params['GIT_REPO']:
-                print("[info] clone from gitlab.")
-                gituser = "oauth2"
-            clone_url = params['GIT_REPO'].replace("://", f"://{gituser}:{params['GIT_TOKEN']}@")
-            cmd = f"{docker_exec} git clone {clone_url} {params['APP_NAME']}"
-            if params['GIT_BRANCH'] != "":
-                cmd = f"{docker_exec} git clone -b {params['GIT_BRANCH']} {clone_url} {params['APP_NAME']}"
-            for line in fn.cmdlines(_cmd=cmd):
-                sys.stdout.write(line)
 
 if __name__ == "__main__":
 
