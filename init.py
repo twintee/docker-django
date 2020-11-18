@@ -38,6 +38,7 @@ def main():
 
     dir_app = join(dir_scr, "src", params['APP_NAME'])
     if not isdir(dir_app):
+        fn.mkdir(join(dir_scr, "src"), True)
         if params['GIT_REPO'] == "":
             cmd = f"{docker_exec} django-admin startproject {params['APP_NAME']} ."
             for line in fn.cmdlines(_cmd=cmd):

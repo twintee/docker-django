@@ -127,6 +127,20 @@ def update_file(_params, _org, _fix, _dst=None):
     with open(target, mode="w", encoding="utf8", newline="\n") as f:
         f.write(txt)
 
+def mkdir(_ref, _skip=False):
+    if not isdir(_ref):
+        mk_ref = False
+        if _skip:
+            mk_ref = True
+        else:
+            _input = input(f"make directory [{_ref}]. ok? (y/*) :").lower()
+            if _input in ["y", "yes"]:
+                mk_ref = True
+        if mk_ref:
+            # ボリューム削除
+            print(f"[info] mkdir {_ref}.")
+            os.makedirs(_ref)
+
 def rmdir(_ref, _skip=False):
     if isdir(_ref):
         rm_ref = False
