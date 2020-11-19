@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9^+rxk4-!$&9w9)joya)n8m=u_7h*u$k600xv-3#3*h&%!*ckf'
+SECRET_KEY = '0w5sk)oi-d@1uc23vse1hfzgad367!2kjf-_lo79wj*d(m3_)l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'django_filters',
+    'crispy_forms',
+    '___APP_NAME___',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'app.urls'
+ROOT_URLCONF = '___APP_NAME___.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app.wsgi.application'
+WSGI_APPLICATION = '___APP_NAME___.wsgi.application'
 
 
 # Database
@@ -75,11 +79,53 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'data',
+        'USER': 'user',
+        'PASSWORD': '___MYSQL_USER_PASSWORD___',
+        'HOST': '___MYSQL_MASTER_HOST___',
+        'PORT': '___MYSQL_MASTER_PORT___',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        }
+    },
+    'migrate': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'data',
+        'USER': 'root',
+        'PASSWORD': '___MYSQL_ROOT_PASSWORD___',
+        'HOST': '___MYSQL_MASTER_HOST___',
+        'PORT': '___MYSQL_MASTER_PORT___',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        }
+    },
+    'slave': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'data',
+        'USER': 'user',
+        'PASSWORD': '___MYSQL_USER_PASSWORD___',
+        'HOST': '___MYSQL_SLAVE_HOST___',
+        'PORT': '___MYSQL_SLAVE_PORT___',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        }
+    },
 }
 
+DATABASE_ROUTERS = ['___APP_NAME___.db_router.DbRouter']
+
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': '___REDIS_MASTER_HOST___:___REDIS_MASTER_PORT___',
+        "OPTIONS": {
+            'DB': 0,
+            "PASSWORD": "___REDIS_MASTER_PASSWORD___",
+            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
+        },
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -103,9 +149,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja-JP'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
@@ -118,3 +164,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"

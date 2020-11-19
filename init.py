@@ -36,13 +36,28 @@ def main():
         if params['GIT_REPO'] == "":
             dir_template = join(dir_scr, "django", "template")
             fn.mkdir(dir_app, True)
-            shutil.copyfile(join(dir_template, "manage.py"), join(dir_app, "manage.py"))
-            for route, dirs, files in os.walk(join(dir_scr, "django", "_org")):
+            fn.update_file(params,
+                    join(dir_template, "manage.py"),
+                    "___",
+                    join(dir_scr, "src", "manage.py"))
+            # メインプロジェクトコピー
+            for route, dirs, files in os.walk(join(dir_template, "project")):
                 for ref in files:
+                    print(route, ref)
                     fn.update_file(params,
                             join(route, ref),
                             "___",
                             join(dir_app, ref))
+            # adminコピー
+            dir_admin = join(dir_scr, "src", "admin")
+            fn.mkdir(dir_admin, True)
+            for route, dirs, files in os.walk(join(dir_template, "admin")):
+                for ref in files:
+                    print(route, ref)
+                    fn.update_file(params,
+                            join(route, ref),
+                            "___",
+                            join(dir_admin, ref))
         else:
             # gitからリポジトリクローン
             gituser = params['GIT_USER']

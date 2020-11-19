@@ -81,21 +81,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'data',
-        'USER': 'user',
-        'PASSWORD': '___MYSQL_USER_PASSWORD___',
+        'USER': 'root',
+        'PASSWORD': '___MYSQL_ROOT_PASSWORD___',
         'HOST': '___MYSQL_MASTER_HOST___',
         'PORT': '___MYSQL_MASTER_PORT___',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        }
-    },
-    'slave': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'data',
-        'USER': 'user',
-        'PASSWORD': '___MYSQL_USER_PASSWORD___',
-        'HOST': '___MYSQL_SLAVE_HOST___',
-        'PORT': '___MYSQL_SLAVE_PORT___',
         'OPTIONS': {
             'charset': 'utf8mb4',
         }

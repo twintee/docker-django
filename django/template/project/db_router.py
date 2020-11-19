@@ -10,4 +10,4 @@ class DbRouter:
         return True
 
     def allow_migrate(self, db, app_label, model=None, **hints):
-        return True
+        return db=="migrate"

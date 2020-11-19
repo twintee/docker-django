@@ -15,15 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import app1
+from . import views
+from rest_framework import routers
+from .views import UserViewSet
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
-
-from app2.views import app2
-
-urlpatterns = [
-    path('app1/', app1),
-    path('app2/', app2),
 ]

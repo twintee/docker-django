@@ -1,6 +1,8 @@
-from django.http import HttpResponse
-from app.models import User
+from django.shortcuts import render
+from .models import User
+from rest_framework import viewsets, filters
+from .serializer import UserSerializer
 
-def app(request):
-    User.objects.create(column1='app')
-    return HttpResponse('app')
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all() # 全てのデータを取得
+    serializer_class = UserSerializer
