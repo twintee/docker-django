@@ -34,20 +34,15 @@ def main():
 
     if not isdir(dir_app):
         if params['GIT_REPO'] == "":
-            shutil.copytree(
-                    join(dir_scr, "django", "template"),
-                    join(dir_scr, "src"))
-            templates = [
-                "settings.py",
-                "db_router.py",
-                "models.py",
-                "views.py",
-                ]
-            for ref in templates:
-                fn.update_file(params,
-                        join(dir_scr, "django", "_org", ref),
-                        "___",
-                        join(dir_scr, "src", "app", ref))
+            dir_template = join(dir_scr, "django", "template")
+            fn.mkdir(dir_app, True)
+            shutil.copyfile(join(dir_template, "manage.py"), join(dir_app, "manage.py"))
+            for route, dirs, files in os.walk(join(dir_scr, "django", "_org")):
+                for ref in files:
+                    fn.update_file(params,
+                            join(route, ref),
+                            "___",
+                            join(dir_app, ref))
         else:
             # gitからリポジトリクローン
             gituser = params['GIT_USER']
