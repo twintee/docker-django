@@ -66,18 +66,17 @@ def main(_args):
     if params['GIT_REPO'] == "":
         dir_app = join(dir_scr, "src", "app")
         if not isdir(dir_app):
-            fn.mkdir(dir_app, True)
             shutil.copytree(
                 join(dir_scr, "django", "template"),
                 join(dir_scr, "src"))
-            # fn.update_file(params,
-            #         join(dir_scr, "django", "settings.py"),
-            #         "___",
-            #         join(dir_scr, "src", "app", "settings.py"))
-            # fn.update_file(params,
-            #         join(dir_scr, "django", "db_router.py"),
-            #         "___",
-            #         join(dir_scr, "src", "app", "db_router.py"))
+            fn.update_file(params,
+                    join(dir_scr, "django", "settings.py"),
+                    "___",
+                    join(dir_scr, "src", "app", "settings.py"))
+            fn.update_file(params,
+                    join(dir_scr, "django", "db_router.py"),
+                    "___",
+                    join(dir_scr, "src", "app", "db_router.py"))
     else:
         # URLをパースする
         params['GIT_DOMAIN'] = urlparse(params['GIT_REPO']).netloc.replace("www.", "")

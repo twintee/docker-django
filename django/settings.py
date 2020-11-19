@@ -104,10 +104,10 @@ DATABASE_ROUTERS = ['multidb_app.db_router.DbRouter']
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': '___REDIS_HOST___:___REDIS_PORT___',
+        'LOCATION': '___REDIS_MASTER_HOST___:___REDIS_MASTER_PORT___',
         "OPTIONS": {
             'DB': 0,
-            "PASSWORD": "___REDIS_PASSWORD___",
+            "PASSWORD": "___REDIS_MASTER_PASSWORD___",
             "CLIENT_CLASS": "redis_cache.client.DefaultClient",
         },
     }
