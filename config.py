@@ -63,21 +63,7 @@ def main(_args):
     fn.update_file(params, nconf_org, "___", nconf_dst)
 
     # netrcファイル作成
-    if params['GIT_REPO'] == "":
-        dir_app = join(dir_scr, "src", "app")
-        if not isdir(dir_app):
-            shutil.copytree(
-                join(dir_scr, "django", "template"),
-                join(dir_scr, "src"))
-            fn.update_file(params,
-                    join(dir_scr, "django", "settings.py"),
-                    "___",
-                    join(dir_scr, "src", "app", "settings.py"))
-            fn.update_file(params,
-                    join(dir_scr, "django", "db_router.py"),
-                    "___",
-                    join(dir_scr, "src", "app", "db_router.py"))
-    else:
+    if params['GIT_REPO'] != "":
         # URLをパースする
         params['GIT_DOMAIN'] = urlparse(params['GIT_REPO']).netloc.replace("www.", "")
         fn.update_file(params, netrc_org, "___", netrc_dst)

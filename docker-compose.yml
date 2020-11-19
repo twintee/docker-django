@@ -1,22 +1,24 @@
 version: '2'
 services:
 
-  # https-portal:
-  #   image: steveltn/https-portal:1
-  #   ports:
-  #     - '8000:80'
-  #     - '443:443'
-  #   # volumes:
-  #   #   - /path/to/certs/:/var/lib/https-portal/
-  #   links:
-  #     - web
-  #   restart: always
-  #   environment:
-  #     DOMAINS:
-  #       'localhost -> http://web:${APP_PORT}'
-  #       # '${APP_DOMAIN} -> http://web:${APP_PORT}'
-  #     STAGE: 'local'
-  #     # STAGE: 'production'
+  https-portal:
+    image: steveltn/https-portal:1
+    container_name: node-https-portal
+    ports:
+      - '8080:80'
+      - '443:443'
+    # volumes:
+    #   - ./http-portal:/var/lib/https-portal/
+    restart: always
+    environment:
+      DOMAINS:
+        # 'localhost -> http://web:8000'
+        'localhost -> http://web:${APP_PORT}'
+        # '${APP_DOMAIN} -> http://web:${APP_PORT}'
+      STAGE: 'local'
+      # STAGE: 'staging'
+      # STAGE: 'production'
+
 
   web:
     image: nginx:stable-alpine

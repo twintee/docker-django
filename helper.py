@@ -18,10 +18,13 @@ def local_ip():
 
 def input_y(_txt, _abort=False):
     _input = input(_txt).lower()
-    if _abort:
-        if not _input in ["y", "yes"]:
+    if _input in ["y", "yes"]:
+        return True
+    else:
+        if _abort:
             print("[info] initialize canceled.")
             sys.exit()
+    return False
 
 def input_yn(_txt):
     _input = input(_txt).lower()
