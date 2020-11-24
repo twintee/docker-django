@@ -21,8 +21,8 @@ def main():
     params = fn.getenv(file_env)
 
     # コンテナ削除
-    for line in fn.cmdlines(_cmd="docker-compose down -v"):
-        sys.stdout.write(line)
+    # for line in fn.cmdlines(_cmd="docker-compose down -v"):
+    #     sys.stdout.write(line)
 
     # ログリセット
     fn.rmdir(join(dir_scr, "log"))
@@ -57,9 +57,15 @@ def main():
                 for line in fn.cmdlines(_cmd=cmd):
                     sys.stdout.write(line)
 
-    # コンテナ作成
-    for line in fn.cmdlines(_cmd=f"docker-compose up -d"):
-        sys.stdout.write(line)
+    if fn.input_yn("start https-portal container? (y/*) :"):
+        # コンテナ作成
+        for line in fn.cmdlines(_cmd=f"docker-compose up -d web"):
+            sys.stdout.write(line)
+    else:
+        # コンテナ作成
+        for line in fn.cmdlines(_cmd=f"docker-compose up -d"):
+            sys.stdout.write(line)
+
 
 if __name__ == "__main__":
 
