@@ -28,8 +28,8 @@ services:
     environment:
       TZ: ${TZ}
       VIRTUAL_HOST: ${APP_DOMAIN}
-    # expose:
-    #   - ${APP_PORT}
+    expose:
+      - ${APP_PORT}
     # ports:
     #   - "8000:8000"
     #   - "${APP_PORT}:8000"
