@@ -1,6 +1,15 @@
 version: '2'
 services:
 
+  proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "8080:${APP_PORT}"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+
   https-portal:
     image: steveltn/https-portal:1
     container_name: node-https-portal
