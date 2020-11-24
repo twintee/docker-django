@@ -10,25 +10,25 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     restart: always
 
-  https-portal:
-    image: steveltn/https-portal:1
-    container_name: node-https-portal
-    ports:
-      # - '${APP_PORT}:80'
-      # - '9000:80'
-      - '443:443'
-    # volumes:
-    #   - ./http-portal:/var/lib/https-portal/
-    restart: always
-    environment:
-      DOMAINS:
-        # 'localhost -> http://web:8000'
-        # 'localhost -> http://web:${APP_PORT}'
-        # '${APP_DOMAIN} -> http://web:8000'
-        '${APP_DOMAIN} -> http://web:${APP_PORT}'
-      STAGE: 'local'
-      # STAGE: 'staging'
-      # STAGE: 'production'
+  # https-portal:
+  #   image: steveltn/https-portal:1
+  #   container_name: node-https-portal
+  #   ports:
+  #     # - '${APP_PORT}:80'
+  #     # - '9000:80'
+  #     - '443:443'
+  #   # volumes:
+  #   #   - ./http-portal:/var/lib/https-portal/
+  #   restart: always
+  #   environment:
+  #     DOMAINS:
+  #       # 'localhost -> http://web:8000'
+  #       # 'localhost -> http://web:${APP_PORT}'
+  #       # '${APP_DOMAIN} -> http://web:8000'
+  #       '${APP_DOMAIN} -> http://web:${APP_PORT}'
+  #     STAGE: 'local'
+  #     # STAGE: 'staging'
+  #     # STAGE: 'production'
 
 
   web:
