@@ -38,6 +38,8 @@ def main():
             dir_template = join(dir_scr, "django", "project")
             params['APP_NAME_PASCAL'] = str(params['APP_NAME']).capitalize()
             fn.copydir(dir_template, dir_project, params)
+            fn.rmdir(join(dir_project, "app"), True)
+            fn.copydir(join(dir_template, "app"), join(dir_project, params['APP_NAME']), params)
         else:
             # gitからリポジトリクローン
             gituser = params['GIT_USER']
