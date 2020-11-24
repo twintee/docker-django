@@ -21,8 +21,8 @@ def main():
     params = fn.getenv(file_env)
 
     # コンテナ削除
-    # for line in fn.cmdlines(_cmd="docker-compose down -v"):
-    #     sys.stdout.write(line)
+    for line in fn.cmdlines(_cmd="docker-compose down -v"):
+        sys.stdout.write(line)
 
     # ログリセット
     fn.rmdir(join(dir_scr, "log"))
