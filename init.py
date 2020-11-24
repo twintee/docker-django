@@ -36,6 +36,7 @@ def main():
         if params['GIT_REPO'] == "":
             # templateをコピー
             dir_template = join(dir_scr, "django", "project")
+            params['APP_NAME_PASCAL'] = str(params['APP_NAME']).capitalize()
             fn.copydir(dir_template, dir_project, params)
         else:
             # gitからリポジトリクローン
