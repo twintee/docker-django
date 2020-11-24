@@ -1,7 +1,7 @@
 import random
 class DbRouter:
     def db_for_read(self, model, **hints):
-        return random.choice(['default', 'slave'])
+        return 'slave'
 
     def db_for_write(self, model, **hints):
         return 'default'
@@ -10,4 +10,4 @@ class DbRouter:
         return True
 
     def allow_migrate(self, db, app_label, model=None, **hints):
-        return db=="migrate"
+        return True

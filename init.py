@@ -7,7 +7,7 @@ import shutil
 from os.path import join, dirname, abspath, isfile, isdir
 from dotenv import load_dotenv
 
-dir_scr = os.path.abspath(os.path.dirname(__file__))
+dir_scr = abspath(dirname(__file__))
 import helper as fn
 
 os.chdir(dir_scr)
@@ -30,34 +30,13 @@ def main():
     # ソースリセット
     fn.rmdir(join(dir_scr, "src"))
 
-    dir_app = join(dir_scr, "src", params['APP_NAME'])
+    dir_project = join(dir_scr, "src")
 
-    if not isdir(dir_app):
+    if not isdir(dir_project):
         if params['GIT_REPO'] == "":
-            dir_template = join(dir_scr, "django", "template")
-            fn.mkdir(dir_app, True)
-            fn.update_file(params,
-                    join(dir_template, "manage.py"),
-                    "___",
-                    join(dir_scr, "src", "manage.py"))
-            # メインプロジェクトコピー
-            for route, dirs, files in os.walk(join(dir_template, "project")):
-                for ref in files:
-                    print(route, ref)
-                    fn.update_file(params,
-                            join(route, ref),
-                            "___",
-                            join(dir_app, ref))
-            # adminコピー
-            dir_admin = join(dir_scr, "src", "admin")
-            fn.mkdir(dir_admin, True)
-            for route, dirs, files in os.walk(join(dir_template, "admin")):
-                for ref in files:
-                    print(route, ref)
-                    fn.update_file(params,
-                            join(route, ref),
-                            "___",
-                            join(dir_admin, ref))
+            # templateをコピー
+            dir_template = join(dir_scr, "django", "project")
+            fn.copydir(dir_template, dir_project, params)
         else:
             # gitからリポジトリクローン
             gituser = params['GIT_USER']
@@ -68,7 +47,7 @@ def main():
             cmd = f"git clone"
             if params['GIT_BRANCH'] != "":
                 cmd += f" -b {params['GIT_BRANCH']}"
-            cmd += f" {clone_url} {dir_app}"
+            cmd += f" {clone_url} {dir_project}"
             for line in fn.cmdlines(_cmd=cmd):
                 sys.stdout.write(line)
             # 内部でgitの更新できるようnetrc作成

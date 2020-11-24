@@ -144,6 +144,19 @@ def mkdir(_ref, _skip=False):
             print(f"[info] mkdir {_ref}.")
             os.makedirs(_ref)
 
+def copydir(_ref, _dst, _params={}):
+    rmdir(_dst, True)
+    shutil.copytree(_ref, _dst)
+    _ref_abs = abspath(_ref)
+    _dst_abs = abspath(_dst)
+    for route, dirs, files in os.walk(_ref_abs):
+        for ref in files:
+            print(route, ref)
+            update_file(_params,
+                    join(route, ref),
+                    "___",
+                    join(route.replace(_ref_abs, _dst_abs), ref))
+
 def rmdir(_ref, _skip=False):
     if isdir(_ref):
         rm_ref = False

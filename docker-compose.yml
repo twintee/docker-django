@@ -5,15 +5,16 @@ services:
     image: steveltn/https-portal:1
     container_name: node-https-portal
     ports:
-      - '8080:80'
+      - '${APP_PORT}:80'
+      # - '9000:80'
       - '443:443'
     # volumes:
     #   - ./http-portal:/var/lib/https-portal/
     restart: always
     environment:
       DOMAINS:
-        # 'localhost -> http://web:8000'
-        'localhost -> http://web:${APP_PORT}'
+        'localhost -> http://web:8000'
+        # 'localhost -> http://web:${APP_PORT}'
         # '${APP_DOMAIN} -> http://web:${APP_PORT}'
       STAGE: 'local'
       # STAGE: 'staging'
@@ -26,7 +27,8 @@ services:
     environment:
       TZ: ${TZ}
     ports:
-      - "${APP_PORT}:8000"
+      - "8000:8000"
+      # - "${APP_PORT}:8000"
     volumes:
       - ./log/nginx:/var/log/nginx
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
@@ -45,7 +47,7 @@ services:
       TZ: ${TZ}
     ports:
       - 8001
-    command: uwsgi --socket :8001 --module ${APP_NAME}.wsgi --py-autoreload 1 --logto /var/log/django.log
+    command: uwsgi --socket :8001 --module project.wsgi --py-autoreload 1 --logto /var/log/django.log
     volumes:
       - ./src:/var/www/html:rw
       - ./log/django:/var/log/:rw

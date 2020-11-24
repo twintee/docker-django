@@ -49,6 +49,7 @@ def main(_args):
             'MYSQL_MASTER_PORT',
             'MYSQL_SLAVE_HOST',
             'MYSQL_SLAVE_PORT',
+            'MYSQL_ROOT_PASSWORD',
             'MYSQL_USER_PASSWORD',
         ])
 
