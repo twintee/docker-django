@@ -1,34 +1,25 @@
 version: '2'
 services:
 
-  proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx-proxy
+  https-portal:
+    image: steveltn/https-portal:1
+    container_name: node-https-portal
     ports:
-      - "8080:${APP_PORT}"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - '${APP_PORT}:80'
+      # - '9000:80'
+      - '443:443'
+    # volumes:
+    #   - ./http-portal:/var/lib/https-portal/
     restart: always
-
-  # https-portal:
-  #   image: steveltn/https-portal:1
-  #   container_name: node-https-portal
-  #   ports:
-  #     # - '${APP_PORT}:80'
-  #     # - '9000:80'
-  #     - '443:443'
-  #   # volumes:
-  #   #   - ./http-portal:/var/lib/https-portal/
-  #   restart: always
-  #   environment:
-  #     DOMAINS:
-  #       # 'localhost -> http://web:8000'
-  #       # 'localhost -> http://web:${APP_PORT}'
-  #       # '${APP_DOMAIN} -> http://web:8000'
-  #       '${APP_DOMAIN} -> http://web:${APP_PORT}'
-  #     STAGE: 'local'
-  #     # STAGE: 'staging'
-  #     # STAGE: 'production'
+    environment:
+      DOMAINS:
+        # 'localhost -> http://web:8000'
+        # 'localhost -> http://web:${APP_PORT}'
+        '${APP_DOMAIN} -> http://web:8000'
+        # '${APP_DOMAIN} -> http://web:${APP_PORT}'
+      STAGE: 'local'
+      # STAGE: 'staging'
+      # STAGE: 'production'
 
 
   web:
@@ -39,9 +30,9 @@ services:
       VIRTUAL_HOST: ${APP_DOMAIN}
     expose:
       - ${APP_PORT}
-    # ports:
-    #   - "8000:8000"
-    #   - "${APP_PORT}:8000"
+    ports:
+      - "8000:8000"
+      # - "${APP_PORT}:8000"
     volumes:
       - ./log/nginx:/var/log/nginx
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
