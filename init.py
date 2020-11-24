@@ -57,13 +57,12 @@ def main():
                 for line in fn.cmdlines(_cmd=cmd):
                     sys.stdout.write(line)
 
-    if fn.input_yn("start https-portal container? (y/*) :"):
         # コンテナ作成
-        for line in fn.cmdlines(_cmd=f"docker-compose up -d web"):
+    if fn.input_yn("start https-portal container? (y/*) :"):
+        for line in fn.cmdlines(_cmd=f"docker-compose up -d"):
             sys.stdout.write(line)
     else:
-        # コンテナ作成
-        for line in fn.cmdlines(_cmd=f"docker-compose up -d"):
+        for line in fn.cmdlines(_cmd=f"docker-compose up -d web"):
             sys.stdout.write(line)
 
 
