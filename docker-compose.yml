@@ -27,6 +27,7 @@ services:
     container_name: node-app-nginx
     environment:
       TZ: ${TZ}
+      VIRTUAL_HOST: ${APP_DOMAIN}
     ports:
       # - "8000:8000"
       - "${APP_PORT}:8000"
