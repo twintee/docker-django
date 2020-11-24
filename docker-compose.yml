@@ -17,8 +17,8 @@ services:
         # 'localhost -> http://web:${APP_PORT}'
         '${APP_DOMAIN} -> http://web:8000'
         # '${APP_DOMAIN} -> http://web:${APP_PORT}'
-      STAGE: 'local'
-      # STAGE: 'staging'
+      # STAGE: 'local'
+      STAGE: 'staging'
       # STAGE: 'production'
 
 
