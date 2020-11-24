@@ -5,7 +5,7 @@ services:
     image: steveltn/https-portal:1
     container_name: node-https-portal
     ports:
-      - '${APP_PORT}:80'
+      # - '${APP_PORT}:80'
       # - '9000:80'
       - '443:443'
     # volumes:
@@ -15,8 +15,8 @@ services:
       DOMAINS:
         # 'localhost -> http://web:8000'
         # 'localhost -> http://web:${APP_PORT}'
-        '${APP_DOMAIN} -> http://web:8000'
-        # '${APP_DOMAIN} -> http://web:${APP_PORT}'
+        # '${APP_DOMAIN} -> http://web:8000'
+        '${APP_DOMAIN} -> http://web:${APP_PORT}'
       STAGE: 'local'
       # STAGE: 'staging'
       # STAGE: 'production'
@@ -28,8 +28,8 @@ services:
     environment:
       TZ: ${TZ}
     ports:
-      - "8000:8000"
-      # - "${APP_PORT}:8000"
+      # - "8000:8000"
+      - "${APP_PORT}:8000"
     volumes:
       - ./log/nginx:/var/log/nginx
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
