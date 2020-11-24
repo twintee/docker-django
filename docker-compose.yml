@@ -28,11 +28,11 @@ services:
     environment:
       TZ: ${TZ}
       VIRTUAL_HOST: ${APP_DOMAIN}
-    expose:
-      - ${APP_PORT}
-    ports:
-      # - "8000:8000"
-      - "${APP_PORT}:8000"
+    # expose:
+    #   - ${APP_PORT}
+    # ports:
+    #   - "8000:8000"
+    #   - "${APP_PORT}:8000"
     volumes:
       - ./log/nginx:/var/log/nginx
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
