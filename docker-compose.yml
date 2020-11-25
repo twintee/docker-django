@@ -29,8 +29,8 @@ services:
       TZ: ${TZ}
       # VIRTUAL_HOST: ${APP_DOMAIN}
     ports:
-      - "8000:8000"
-      # - "${APP_PORT}:8000"
+      # - "8000:8000"
+      - "${APP_PORT}:8000"
     volumes:
       - ./log/nginx:/var/log/nginx
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
