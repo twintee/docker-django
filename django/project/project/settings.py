@@ -31,16 +31,14 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'api.apps.ApiConfig',
+    '___APP_NAME___.apps.___APP_NAME_PASCAL___Config',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # '___APP_NAME___',
-    '___APP_NAME___.apps.___APP_NAME_PASCAL___Config',
-    # 'api',
-    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [

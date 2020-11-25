@@ -51,7 +51,7 @@ services:
       - 8001
     command: uwsgi --socket :8001 --module project.wsgi --py-autoreload 1 --logto /var/log/django.log
     volumes:
-      - ./src:/var/www/html:rw
+      - ./src:/dev/code:rw
       - ./log/django:/var/log/:rw
       - ./static:/static
     restart: always

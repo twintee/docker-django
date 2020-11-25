@@ -4,6 +4,7 @@
 import os
 import sys
 import shutil
+import argparse
 from os.path import join, dirname, abspath, isfile, isdir
 from dotenv import load_dotenv
 
@@ -13,7 +14,7 @@ import helper as fn
 os.chdir(dir_scr)
 file_env = os.path.join(dir_scr, ".env")
 
-def main():
+def main(_args):
     """
     initialize container
     """
@@ -21,8 +22,9 @@ def main():
     params = fn.getenv(file_env)
 
     # コンテナ削除
-    for line in fn.cmdlines(_cmd="docker-compose down -v"):
-        sys.stdout.write(line)
+    if not _args.debug:
+        for line in fn.cmdlines(_cmd="docker-compose down -v"):
+            sys.stdout.write(line)
 
     # ログリセット
     fn.rmdir(join(dir_scr, "log"))
@@ -40,6 +42,8 @@ def main():
             fn.copydir(dir_template, dir_project, params)
             fn.rmdir(join(dir_project, "app"), True)
             fn.copydir(join(dir_template, "app"), join(dir_project, params['APP_NAME']), params)
+            fn.rmdir(join(dir_project, "templates", "app"), True)
+            fn.copydir(join(dir_template, "templates", "app"), join(dir_project, "templates", params['APP_NAME']), params)
         else:
             # gitからリポジトリクローン
             gituser = params['GIT_USER']
@@ -60,16 +64,21 @@ def main():
                 for line in fn.cmdlines(_cmd=cmd):
                     sys.stdout.write(line)
 
-        # コンテナ作成
-    if fn.input_yn("start https-portal container? (y/*) :"):
-        for line in fn.cmdlines(_cmd=f"docker-compose up -d"):
-            sys.stdout.write(line)
-    else:
-        for line in fn.cmdlines(_cmd=f"docker-compose up -d web"):
-            sys.stdout.write(line)
+    # コンテナ作成
+    if not _args.debug:
+        if fn.input_yn("start https-portal container? (y/*) :"):
+            for line in fn.cmdlines(_cmd=f"docker-compose up -d"):
+                sys.stdout.write(line)
+        else:
+            for line in fn.cmdlines(_cmd=f"docker-compose up -d web"):
+                sys.stdout.write(line)
 
 
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(description='set config files')
+    parser.add_argument('--debug', '-d', help="reset files", action="store_true")
+    args = parser.parse_args()
 
     _input = input("initialize container. ok? (y/*) :").lower()
     if not _input in ["y", "yes"]:
@@ -77,5 +86,5 @@ if __name__ == "__main__":
         sys.exit()
 
     print("[info] initialize start.")
-    main()
+    main(args)
     print("[info] initialize end.")

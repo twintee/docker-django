@@ -11,7 +11,7 @@ RUN apt-get update && \
     vim \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /var/www/html
+ADD requirements.txt /work/
+RUN pip install --no-cache-dir -r /work/requirements.txt
 
-ADD requirements.txt /var/www/html/
-RUN pip install --no-cache-dir -r requirements.txt
+WORKDIR /dev/code
