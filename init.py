@@ -6,7 +6,6 @@ import sys
 import shutil
 import argparse
 from os.path import join, dirname, abspath, isfile, isdir
-from dotenv import load_dotenv
 
 dir_scr = abspath(dirname(__file__))
 import helper as fn
@@ -72,6 +71,15 @@ def main(_args):
         else:
             for line in fn.cmdlines(_cmd=f"docker-compose up -d web"):
                 sys.stdout.write(line)
+
+    # django前処理
+    docker_cmd = "docker exec -it node-app-django"
+    for line in fn.cmdlines(_cmd=f"{docker_cmd} python3 ./manage.py makemigrations"):
+        sys.stdout.write(line)
+    for line in fn.cmdlines(_cmd=f"{docker_cmd} python3 ./manage.py migrate"):
+        sys.stdout.write(line)
+    for line in fn.cmdlines(_cmd=f"{docker_cmd} python3 ./manage.py createsuperuser"):
+        sys.stdout.write(line)
 
 
 if __name__ == "__main__":

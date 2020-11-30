@@ -7,11 +7,12 @@
 ## 🌏 動作環境
 - ubuntu :16.*, 18.*
 
+- mysql
+
 ## ⚙ 使用法
 - ノード生成
-    1. 必要モジュール
-        - python-dotenv  
-        `pip install python-dotenv`
+    1. 必要モジュールインストール
+        `pip install -r requirements.txt`
     1. `config.py`を実行。応答で必要情報を.envに書き出したり情報を付与したマウント用ファイルを生成する。  
         `python3 config.py`  
         - オプション  
