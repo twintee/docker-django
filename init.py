@@ -43,6 +43,7 @@ def main(_args):
             fn.copydir(join(dir_template, "app"), join(dir_project, params['APP_NAME']), params)
             fn.rmdir(join(dir_project, "templates", "app"), True)
             fn.copydir(join(dir_template, "templates", "app"), join(dir_project, "templates", params['APP_NAME']), params)
+
         else:
             # gitからリポジトリクローン
             gituser = params['GIT_USER']
@@ -72,15 +73,16 @@ def main(_args):
             for line in fn.cmdlines(_cmd=f"docker-compose up -d web"):
                 sys.stdout.write(line)
 
-    # django前処理
-    docker_cmd = "docker exec -it node-app-django"
-    for line in fn.cmdlines(_cmd=f"{docker_cmd} python3 ./manage.py makemigrations"):
-        sys.stdout.write(line)
-    for line in fn.cmdlines(_cmd=f"{docker_cmd} python3 ./manage.py migrate"):
-        sys.stdout.write(line)
-    for line in fn.cmdlines(_cmd=f"{docker_cmd} python3 ./manage.py createsuperuser"):
-        sys.stdout.write(line)
 
+    # django前処理
+    if params['GIT_REPO'] == "":
+        docker_cmd = "docker exec -it node-app-django"
+        for line in fn.cmdlines(_cmd=f"{docker_cmd} python3 ./manage.py makemigrations"):
+            sys.stdout.write(line)
+        for line in fn.cmdlines(_cmd=f"{docker_cmd} python3 ./manage.py migrate"):
+            sys.stdout.write(line)
+        for line in fn.cmdlines(_cmd=f"{docker_cmd} python3 ./manage.py createsuperuser"):
+            sys.stdout.write(line)
 
 if __name__ == "__main__":
 

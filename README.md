@@ -7,7 +7,9 @@
 ## 🌏 動作環境
 - ubuntu :16.*, 18.*
 
-- mysql
+- mysqlのクラスタとredisのホストが前提
+    - mysqlクラスタ参考: `http://gitlab.ganin/docker/mysql-cluster` のかんたん１ホストクラスタ  
+    - redisホスト参考: `http://gitlab.ganin/docker/redis-cluster`  
 
 ## ⚙ 使用法
 - ノード生成
