@@ -8,8 +8,8 @@
 - ubuntu :16.*, 18.*
 
 - mysqlのクラスタとredisのホストが前提
-    - mysqlクラスタ参考: `http://gitlab.ganin/docker/mysql-cluster` のかんたん１ホストクラスタ  
-    - redisホスト参考: `http://gitlab.ganin/docker/redis-cluster`  
+    - mysqlクラスタ参考: `https://github.com/twintee/docker-mysql-cluster` のかんたん１ホストクラスタ  
+    - redisホスト参考: `https://github.com/twintee/docker-redis-cluster`  
 
 ## ⚙ 使用法
 - ノード生成
